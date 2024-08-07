@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drug Classification</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #111;
+            color: white;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+        }
+        h1 {
+            color: white;
+            background-image: linear-gradient(to right, #6a11cb 0%, #2575fc 100%);
+            padding: 10px;
+            border-radius: 5px;
+            border: 5px solid white;
+        }
+        input[type="number"], select {
+            background-color: #111;
+            border: 2px solid white;
+            border-radius: 5px;
+            padding: 5px;
+            color: white;
+        }
+        button {
+            background-image: linear-gradient(to right, #6a11cb 0%, #2575fc 100%);
+            border: 3px solid white;
+            padding: 18px;
+            border-radius: 30px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        button:hover {
+            opacity: 0.8;
+        }
+        .gradient-container {
+            background: linear-gradient(to right, #6a11cb 0%, #2575fc 100%);
+            padding: 20px;
+            border-radius: 20px;
+            color: white;
+            font-size: 30px;
+            font-weight: bold;
+            text-align: center;
+            border-color: white;
+        }
+        table {
+            margin: auto;
+            border: 1px solid white;
+            border-radius: 6px;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid white;
+            text-align: center;
+        }
+        th {
+            background-color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Drug Classification 💉🩸</h1>
+        <form method="POST">
+            <label for="age">Age:</label>
+            <input type="number" id="age" name="age" min="1" max="100" value="48"><br><br>
+            <label for="cholesterol">Cholesterol:</label>
+            <select id="cholesterol" name="cholesterol">
+                <option value="HIGH">HIGH</option>
+                <option value="NORMAL">NORMAL</option>
+            </select><br><br>
+            <label for="bp">BP:</label>
+            <select id="bp" name="bp">
+                <option value="LOW">LOW</option>
+                <option value="NORMAL">NORMAL</option>
+                <option value="HIGH">HIGH</option>
+            </select><br><br>
+            <label for="na_to_k">Na_to_K:</label>
+            <input type="number" id="na_to_k" name="na_to_k" min="15" max="75" value="25"><br><br>
+            <label for="sex">Sex:</label>
+            <select id="sex" name="sex">
+                <option value="M">M</option>
+                <option value="F">F</option>
+            </select><br><br>
+            <button type="submit">Predict</button>
+        </form>
+
+        {% if prediction %}
+            <div class="gradient-container">
+                Predicted Class: {{ prediction|upper }}
+            </div>
+            <br>
+            <h2>Predicted Probabilities:</h2>
+            <table>
+                <thead>
+                    <tr>
+                        {% for label in prob_df.columns %}
+                            <th>{{ label }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        {% for prob in prob_df.iloc[0] %}
+                            <td>{{ prob }}</td>
+                        {% endfor %}
+                    </tr>
+                </tbody>
+            </table>
+        {% endif %}
+    </div>
+</body>
+</html>
